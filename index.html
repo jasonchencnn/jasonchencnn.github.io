@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jason Chen</title>
+<meta name="description" content="Jason Chen — building AI Team Workspace, a desktop app that turns AI coding agents into a dev team.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23465bd8'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'>J</text></svg>">
+<style>
+  :root {
+    --canvas: #f5f6f8; --surface: #ffffff; --ink: #20242d; --muted: #626978;
+    --line: #e1e5ec; --brand: #465bd8; --brand-soft: #eef1ff; --success: #237a4b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --canvas: #12141a; --surface: #1b1e26; --ink: #e8eaf0; --muted: #a0a6b4;
+      --line: #2c303b; --brand: #8b9bff; --brand-soft: #232a4a; --success: #5fcf8e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--canvas); color: var(--ink);
+    font: 16px/1.65 "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  }
+  a { color: var(--brand); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+  .logo { font-weight: 700; color: var(--ink); }
+  .lang { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .lang button {
+    border: 0; background: transparent; color: var(--muted); padding: 6px 14px;
+    font: inherit; font-size: 14px; cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: var(--brand); color: #fff; }
+  .hero { padding: 56px 0 40px; }
+  .hero h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.2; margin: 0 0 16px; letter-spacing: -0.01em; }
+  .hero h1 em { font-style: normal; color: var(--brand); }
+  .hero p { font-size: 18px; color: var(--muted); margin: 0 0 28px; max-width: 640px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 600; font-size: 15px;
+    border: 1px solid var(--line); color: var(--ink); background: var(--surface);
+  }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn:hover { text-decoration: none; filter: brightness(0.97); }
+  section { padding: 32px 0; }
+  h2 { font-size: 22px; margin: 0 0 18px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+  .card h3 { margin: 0 0 8px; font-size: 20px; }
+  .card > p { margin: 0 0 20px; color: var(--muted); }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 22px; padding: 0; list-style: none; }
+  .flow li { background: var(--brand-soft); color: var(--brand); border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 600; }
+  .flow li + li::before { content: "→"; color: var(--muted); margin: 0 8px 0 -4px; font-weight: 400; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .feat { border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .feat b { display: block; margin-bottom: 4px; }
+  .feat span { color: var(--muted); font-size: 14px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .tag { border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; font-size: 13px; color: var(--muted); }
+  .milestones { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .milestones li { display: flex; gap: 12px; align-items: baseline; }
+  .milestones .m { font-weight: 700; color: var(--success); min-width: 34px; }
+  .milestones .t { color: var(--muted); font-size: 15px; }
+  .way p { color: var(--muted); margin: 0 0 12px; }
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); margin-top: 24px; }
+  html:not([lang="en"]) [data-en], html[lang="en"] [data-zh] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="logo">Jason Chen</span>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-set="zh-CN" aria-pressed="true">中文</button>
+      <button type="button" data-set="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1 data-zh>让 AI 编程工具<br>像一支<em>真正的开发团队</em>协作</h1>
+    <h1 data-en>Turning AI coding agents<br>into a <em>real dev team</em></h1>
+    <p data-zh>我是 Jason，正在做 AI Team Workspace：让 Claude Code、Codex 等工具按岗位分工，我只和 Leader 对话，其余的派工、执行、验收和留痕交给 Teamspace。</p>
+    <p data-en>I'm Jason. I'm building AI Team Workspace, where Claude Code, Codex and other agents take on fixed roles. I talk to the Leader; Teamspace handles dispatch, execution, review and the audit trail.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/jasonchencnn/ai-team-workspace"><span data-zh>查看项目</span><span data-en>View the project</span></a>
+      <a class="btn" href="https://github.com/jasonchencnn">GitHub</a>
+    </div>
+  </div>
+
+  <section>
+    <h2 data-zh>主要项目</h2><h2 data-en>Featured project</h2>
+    <div class="card">
+      <h3>AI Team Workspace · Teamspace</h3>
+      <p data-zh>macOS 桌面应用。把 Claude Code、Codex、MiniMax Code、Gemini CLI 等组成固定岗位（Leader / 产品 / 前端 / 后端 / QA）的开发团队。</p>
+      <p data-en>A macOS desktop app that organises Claude Code, Codex, MiniMax Code, Gemini CLI and others into a team with fixed roles (Leader / PM / Frontend / Backend / QA).</p>
+      <ul class="flow" data-zh>
+        <li>建任务</li><li>派工</li><li>隔离执行</li><li>验收合并</li><li>留痕</li>
+      </ul>
+      <ul class="flow" data-en>
+        <li>Create</li><li>Dispatch</li><li>Isolated run</li><li>Review &amp; merge</li><li>Audit</li>
+      </ul>
+      <div class="grid">
+        <div class="feat">
+          <b data-zh>岗位 ≠ 工具 ≠ 模型</b><b data-en>Role ≠ tool ≠ model</b>
+          <span data-zh>任务派给岗位，岗位可随时换绑到其他 Harness 或模型，并自动继承上下文。</span>
+          <span data-en>Work goes to roles; a role can be rebound to another harness or model and keeps its context.</span>
+        </div>
+        <div class="feat">
+          <b data-zh>ACP + MCP</b><b data-en>ACP + MCP</b>
+          <span data-zh>通过 ACP 协议驱动各家 CLI；MCP 工具箱让 Leader 自己拆任务、派工和验收。</span>
+          <span data-en>Drives each CLI over ACP; an MCP toolbox lets the Leader split, assign and review tasks itself.</span>
+        </div>
+        <div class="feat">
+          <b data-zh>每次执行一个 worktree</b><b data-en>One worktree per run</b>
+          <span data-zh>隔离执行、逐文件 diff 验收，通过后才合入基线分支；退回可续接会话。</span>
+          <span data-en>Isolated runs, per-file diff review, merged only after approval; rejected runs resume the same session.</span>
+        </div>
+        <div class="feat">
+          <b data-zh>人有最终控制权</b><b data-en>Humans stay in control</b>
+          <span data-zh>超出岗位权限的请求、换绑和合并主分支，都由人来拍板。</span>
+          <span data-en>Out-of-scope permissions, rebinding and merges to main always need a human decision.</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">Rust</span><span class="tag">TypeScript</span><span class="tag">React 19</span>
+        <span class="tag">Tauri 2</span><span class="tag">SQLite</span><span class="tag">ACP</span><span class="tag">MCP</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-zh>进展</h2><h2 data-en>Progress</h2>
+    <ul class="milestones">
+      <li><span class="m">M1</span><span class="t" data-zh>团队、岗位、Harness 与任务看板</span><span class="t" data-en>Teams, roles, harnesses and the task board</span></li>
+      <li><span class="m">M2</span><span class="t" data-zh>基于 ACP 的派工执行与权限审批</span><span class="t" data-en>ACP-based dispatch and permission approvals</span></li>
+      <li><span class="m">M3</span><span class="t" data-zh>验收闭环：diff 审查、合并、退回续接</span><span class="t" data-en>Review loop: diff review, merge, resume on rejection</span></li>
+      <li><span class="m">M4</span><span class="t" data-zh>Leader 通过 MCP 编排整个团队</span><span class="t" data-en>Leader orchestrates the team over MCP</span></li>
+      <li><span class="m">M5</span><span class="t" data-zh>岗位通信与「待我处理」</span><span class="t" data-en>Role messaging and a "needs me" inbox</span></li>
+      <li><span class="m">M6</span><span class="t" data-zh>换绑 Harness 与上下文继承</span><span class="t" data-en>Harness rebinding with context hand-off</span></li>
+      <li><span class="m">M7</span><span class="t" data-zh>窄屏、键盘、无障碍、性能与打包</span><span class="t" data-en>Narrow screens, keyboard, accessibility, performance and packaging</span></li>
+    </ul>
+  </section>
+
+  <section class="way">
+    <h2 data-zh>我的工作方式</h2><h2 data-en>How I work</h2>
+    <p data-zh>可用优先、纵向切片、用中迭代。这个项目本身就由一支 AI 团队开发：Claude 担任总指挥，按任务强度把工作派给 Opus、Sonnet、Haiku 和 MiniMax，我负责最终决策与验收。</p>
+    <p data-en>Usable first, vertical slices, iterate through real use. The project itself is built by an AI team: Claude leads and routes work by difficulty to Opus, Sonnet, Haiku and MiniMax, while I make the final calls and sign off.</p>
+  </section>
+
+  <footer>
+    © 2026 Jason Chen · <a href="https://github.com/jasonchencnn">github.com/jasonchencnn</a>
+  </footer>
+</div>
+<script>
+  (function () {
+    var html = document.documentElement;
+    var buttons = document.querySelectorAll(".lang button");
+    function set(lang) {
+      html.lang = lang;
+      buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.set === lang)); });
+      try { localStorage.setItem("lang", lang); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem("lang"); } catch (e) {}
+    set(saved || (navigator.language && navigator.language.indexOf("zh") === 0 ? "zh-CN" : "en"));
+    buttons.forEach(function (b) { b.addEventListener("click", function () { set(b.dataset.set); }); });
+  })();
+</script>
+</body>
+</html>
